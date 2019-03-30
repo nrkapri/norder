@@ -15,4 +15,11 @@
 	</parent>
 	
 	
+  <modules>
+  	<module>../norder-config-server</module>
+  	<module>../norder-eureka-server</module>
+  	<module>../norder-reservation</module>
+  	<module>../reservation-client</module>
+  	<module>../reservation-client-1</module>
+  </modules>
 </project>
