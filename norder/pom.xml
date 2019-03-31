@@ -50,6 +50,7 @@
 		<module>../reservation-client</module>
 		<module>../reservation-client-1</module>
 		<module>../norder-zipkin-server</module>
+		<module>../norder-api-getway</module>
 	</modules>
 
 
