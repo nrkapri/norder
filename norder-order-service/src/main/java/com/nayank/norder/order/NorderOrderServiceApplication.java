@@ -1,10 +1,7 @@
-package com.nayank.norder.nordercustomer;
+package com.nayank.norder.order;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,36 +16,27 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-public class NorderCustomerApplication {
+public class NorderOrderServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(NorderCustomerApplication.class, args);
+		SpringApplication.run(NorderOrderServiceApplication.class, args);
 	}
 
 }
 
 
-
 @RestController
 @RefreshScope
-class CustomerController {
-	private static final Logger LOG = Logger.getLogger(CustomerController.class.getName());	
+class OrderController {
+	private static final Logger LOG = Logger.getLogger(OrderController.class.getName());	
 
 	@Autowired
-	private CustomerRepos customerRepos;
+	private OrderRepos customerRepos;
 	
 	
-	@RequestMapping(value="/message")
-	public List<Customer>  login(String name, String email)
-	{
-		return customerRepos.findByNameAndEmail(name,email);
-	}
 }
 
 
@@ -56,7 +44,7 @@ class CustomerController {
 class SampleCLR implements  CommandLineRunner
 {
 	@Autowired
-	private CustomerRepos customerRepos;
+	private OrderRepos orderRepos;
 
 	private static final Logger LOG = Logger.getLogger(SampleCLR.class.getName());
 	
@@ -65,17 +53,32 @@ class SampleCLR implements  CommandLineRunner
 
 		LOG.info("sunning sampler");
 
-		customerRepos.save(new Customer("Nayan","n@g.com","Pune"));
-		customerRepos.save(new Customer("Nayan1","n1@g.com","Pune1"));
-		customerRepos.save(new Customer("Nayan2","n2@g.com","Pune2"));
-		customerRepos.save(new Customer("Nayan3","n3@g.com","Pune3"));
+		ArrayList<Item> items1 = new ArrayList<Item>();
+		items1.add(new Item((long)1,(long)1));
+		items1.add(new Item((long)2,(long)2));
+		items1.add(new Item((long)3,(long)3));
+		
+		orderRepos.save(new Order((long)1, items1));
+		
+		ArrayList<Item> items2 = new ArrayList<Item>();
+		items2.add(new Item((long)1,(long)3));
+		items2.add(new Item((long)2,(long)2));
+		items2.add(new Item((long)3,(long)1));
+		orderRepos.save(new Order((long)2, items2));
+		
+	
+		ArrayList<Item> items3 = new ArrayList<Item>();
+		items3.add(new Item((long)1,(long)4));
+		items3.add(new Item((long)2,(long)5));
+		items3.add(new Item((long)3,(long)6));
+		orderRepos.save(new Order((long)3, items3));
+		
 	}
 	
 }
 
 @RepositoryRestResource
-interface CustomerRepos extends JpaRepository< Customer,Long> 
+interface OrderRepos extends JpaRepository< Order,Long> 
 {
-	List<Customer> findByNameAndEmail(String name,String email);	
 }
  
