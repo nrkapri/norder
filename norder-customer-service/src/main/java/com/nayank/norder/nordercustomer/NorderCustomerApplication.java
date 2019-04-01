@@ -47,7 +47,7 @@ class CustomerController {
 	@RequestMapping(value="/message")
 	public List<Customer>  login(String name, String email)
 	{
-		return customerRepos.findByAndNameEmail(name,email);
+		return customerRepos.findByNameAndEmail(name,email);
 	}
 }
 
@@ -80,22 +80,16 @@ interface CustomerRepos extends JpaRepository< Customer,Long>
 }
  
 
-@Getter
-@Setter
-@ToString
 @Entity
 class Customer 
 {
 	@Id
 	@GeneratedValue
 	Long id ;
-	
 	String name ;
-	
 	String email;
-	
 	String address;
-	
+
 	public Customer()
 	{
 	}
@@ -105,5 +99,42 @@ class Customer
 		this.name=name;
 		this.email= email;
 		this.address=address;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", name=" + name + ", email=" + email + ", address=" + address + "]";
 	}
 }
