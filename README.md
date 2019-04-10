@@ -1,6 +1,6 @@
-h1.	norder
+<h1>norder </h1>
 
-h2.	A demonstration of microservice architechture
+<h2>A demonstration of microservice architechture</h2>
 
 
 This project is to demonstrate different aspects of a microservice architecture 
