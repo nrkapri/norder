@@ -1,7 +1,9 @@
 package com.nayank.norder.order;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,14 +43,16 @@ class Item{
 }
 
 @Entity
-class Order 
+class Orders 
 {
 	@Id
 	@GeneratedValue
 	Long id ;
 	Long customerId;
 
-	List<Item> items;
+	//@OneToMany(targetEntity=Item.class,mappedBy="id", fetch=FetchType.EAGER)
+	@ElementCollection 
+	List<Item> items= new ArrayList<Item>();
 
 	public Long getId() {
 		return id;
@@ -71,7 +75,7 @@ class Order
 	}
 
 	public void setItems(List<Item> items) {
-		this.items = items;
+		this.items = (ArrayList<Item>) items;
 	}
 
 	@Override
@@ -79,12 +83,12 @@ class Order
 		return "Order [id=" + id + ", customerId=" + customerId + ", items=" + items + "]";
 	}
 
-	public Order( Long customerId, List<Item> items) {
+	public Orders( Long customerId, List<Item> items) {
 		this.customerId = customerId;
-		this.items = items;
+		this.items = (ArrayList<Item>) items;
 	}
 
-	public Order()
+	public Orders()
 	{
 		
 	}
