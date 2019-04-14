@@ -1,16 +1,9 @@
-package com.nayank.norder.order;
+package com.nayank.norder.norderfulfilmentservice;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
-
-@Embeddable
 class Item{
 	Long productId;
 	Long quantity;
@@ -45,28 +38,23 @@ class Item{
 	}
 }
 
-@Entity
 class Orders 
 {
-	@Id
-	@GeneratedValue
 	Long id ;
 	Long customerId;
 	String status;
 
-	//@OneToMany(targetEntity=Item.class,mappedBy="id", fetch=FetchType.EAGER)
-	@ElementCollection 
 	List<Item> items= new ArrayList<Item>();
 
-	
+
 	public String getStatus() {
 		return status;
 	}
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
+
+
 	public Long getId() {
 		return id;
 	}
@@ -91,13 +79,13 @@ class Orders
 		this.items = (ArrayList<Item>) items;
 	}
 
-	
+
 
 	@Override
 	public String toString() {
 		return "Orders [id=" + id + ", customerId=" + customerId + ", status=" + status + ", items=" + items + "]";
 	}
-	
+
 	public Orders( Long customerId, String status,List<Item> items) {
 		this.customerId = customerId;
 		this.status=status;
