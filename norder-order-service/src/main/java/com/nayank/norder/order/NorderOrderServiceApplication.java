@@ -4,12 +4,18 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import org.jboss.logging.Logger;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -41,8 +47,29 @@ class OrderController {
 
 	@Autowired
 	private KafkaTemplate<String, String> kafkaTemplate;
-	
-	
+
+	@Autowired
+	private RabbitTemplate template;
+
+	static final String topicExchangeName = "norder-createorder-exchange";
+
+	static final String queueName = "norder";
+
+	@Bean
+	Queue queue() {
+		return new Queue(queueName, false);
+	}
+
+	@Bean
+	TopicExchange exchange() {
+		return new TopicExchange(topicExchangeName);
+	}
+
+	@Bean
+	Binding binding(Queue queue, TopicExchange exchange) {
+		return BindingBuilder.bind(queue).to(exchange).with("order.fulfil.#");
+	}
+
 	@RequestMapping(value="/newOrder/")
 	public @ResponseBody Orders  newOrder()
 	{
@@ -53,7 +80,9 @@ class OrderController {
 		items1.add(new Item((long)3,(long)3));
 
 		Orders orders =orderRepos.save(new Orders((long)1, "PENDING", items1));
-		kafkaTemplate.send("create-order", orders.getId().toString());
+		template.convertAndSend(queueName, orders.toString());
+		//template.convertAndSend(topicExchangeName, "order.fulfil.1", orders);
+		//kafkaTemplate.send("create-order", orders.getId().toString());
 		return orders;
 	}
 
