@@ -46,11 +46,15 @@
 	<modules>
 		<module>../norder-config-server</module>
 		<module>../norder-eureka-server</module>
-		<module>../norder-reservation</module>
-		<module>../reservation-client</module>
+		<module>../norder-reservation-client</module>
 		<module>../reservation-client-1</module>
 		<module>../norder-zipkin-server</module>
-		<module>../norder-api-getway</module>
+		<module>../norder-api-gateway</module>
+		<module>../norder-customer-service</module>
+		<module>../norder-fulfilment-service</module>
+		<module>../norder-order-service</module>
+		<module>../norder-product-service</module>
+		<module>../norder-reservation-service</module>
 	</modules>
 
 

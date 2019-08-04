@@ -5,7 +5,7 @@
 
 This project is to demonstrate different aspects of a microservice architecture 
 
-1. apigetway -- a zuul proxy server serving as a getway
+1. apigateway -- a zuul proxy server serving as a gateway
 2. config -- a spring cloud config server fetching the configuration from  github
 3. eureka server -- service discovery 
 4. zipkin server --- anlong with sleuth used for distributed tracing 
